@@ -1,0 +1,38 @@
+group 'com.xwc.open'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+}
+dependencies {
+    testCompile("junit:junit:4.12")
+    compile("org.apache.poi:poi:3.10.1")
+    compile("org.apache.poi:poi-ooxml:3.10.1")
+    compile("org.apache.poi:poi-ooxml-schemas:3.10.1")
+}
+
+//定义编译时候使用的字符集
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+//创建目录
+def createDir = {
+    path->
+        File dir = new File(path)
+        if(!dir.exists()){
+            dir.mkdirs()
+        }
+}
+task mkdirJava(){
+    def paths = ['src/main/java','src/main/resources','src/test/java','src/test/resource']
+    doFirst{
+        paths.forEach(createDir)
+    }
+}
